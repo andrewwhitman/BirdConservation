@@ -1,5 +1,5 @@
 # imports
-from sklearn.metrics import roc_curve, auc, recall_score, f1_score, plot_confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, precision_recall_curve ,auc, plot_confusion_matrix
 import matplotlib.pyplot as plt
 from pandas import DataFrame
 
@@ -7,7 +7,7 @@ from pandas import DataFrame
 def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False):
     """
     Fit a model to train data and calculate classification metrics for train and test data.
-    Plot the confusion matrix and ROC curve for test data.
+    Plot the confusion matrix, ROC curve, and precision-recall curve for test data.
     
     Inputs:
         model: sklearn-like model object
@@ -38,16 +38,30 @@ def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False):
     
     # roc auc calcs
     fpr, tpr, _ = roc_curve(y_te, tst_proba)
-    auc_text = f"AUC Score: {auc(fpr, tpr):.3f}"
+    roc_auc_text = f"AUC score: {auc(fpr, tpr):.3f}"
+
+    # precision-recall curve calcs
+    precision_c, recall_c, _ = precision_recall_curve(y_te, tst_proba)
+    pr_auc_text = f"AUC score: {auc(recall_c, precision_c):.3f}"
+    # predict all 1's
+    dummy_preds = sum(y_te==1)/len(y_te)
     
     
     print("Training Metrics")
+    # Accuracy
+    print(f"Accuracy: {accuracy_score(y_tr, trn_preds):.3f}")
+    # Precision
+    print(f"Precision: {precision_score(y_tr, trn_preds):.3f}")
     # Recall
     print(f"Recall: {recall_score(y_tr, trn_preds):.3f}")
     # f1
     print(f"f1: {f1_score(y_tr, trn_preds):.3f}")
-    print('----')
+    print('-'*10)
     print("Testing Metrics")
+    # Accuracy
+    print(f"Accuracy: {accuracy_score(y_te, tst_preds):.3f}")
+    # Precision
+    print(f"Precision: {precision_score(y_te, tst_preds):.3f}")
     # Recall
     print(f"Recall: {recall_score(y_te, tst_preds):.3f}")
     # f1
@@ -55,7 +69,7 @@ def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False):
     
     
     # create fig, axes
-    fig, (ax1, ax2) = plt.subplots(2, figsize=(8, 12))
+    fig, (ax1, ax2, ax3) = plt.subplots(3, figsize=(8, 18))
     
     # confusion matrix
     plot_confusion_matrix(model, X_te, y_te, cmap='Blues', ax=ax1)
@@ -70,10 +84,23 @@ def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False):
     ax2.set_ylabel('True Positive Rate')
     ax2.set_xlim([0.0, 1.0])
     ax2.set_ylim([0.0, 1.05])
-    ax2.text(x=0.72, y=0.15, s=auc_text, fontsize=14)
+    ax2.text(x=0.72, y=0.15, s=roc_auc_text, fontsize=14)
     ax2.legend(loc='lower right', fontsize=14)
+
+    # precision-recall curve
+    ax3.plot(recall_c, precision_c, color='darkorange', lw=2, label='Precision-Recall curve')
+    ax3.plot([0, 1], [dummy_preds, dummy_preds], color='navy', lw=2, linestyle='--')
+    ax3.set_title('Precision-Recall Curve for Test Data')
+    ax3.set_xlabel('Recall')
+    ax3.set_ylabel('Precision')
+    ax3.set_xlim([0.0, 1.0])
+    ax3.set_ylim([0.0, 1.05])
+    ax3.text(x=0.05, y=0.15, s=pr_auc_text, fontsize=14)
+    ax3.legend(loc='lower left', fontsize=14)
     
     # display grid search results
     if grid_search:
-        print(f"\nBest Parameters for Recall\n{model.best_params_}")
-        display(DataFrame(model.cv_results_).sort_values('rank_test_recall'))
+        print(f"\nBest Parameters\n{model.best_params_}")
+        results = DataFrame(model.cv_results_)
+        display(results.sort_values('rank_test_f1'))
+        return results
