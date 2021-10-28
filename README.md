@@ -2,8 +2,8 @@
 
 **Authors**: 
 
-- [Andrew Whitman](https://github.com/andrewwhitman)
 - [Scott Schumann](https://github.com/Shoemaker703)
+- [Andrew Whitman](https://github.com/andrewwhitman)
 
 
 ## Overview
