@@ -26,7 +26,7 @@ We hope that our model can be used as a less scientifically rigorous proxy for a
 
 ## Data Understanding
 
-The data for this repo was sourced from the [Ecological Society of America](https://figshare.com/collections/EltonTraits_1_0_Species-level_foraging_attributes_of_the_world_s_birds_and_mammals/3306933) and [BirdLife International](https://www.birdlife.org/) by colleagues Jeff Marvel and Crystal Gould Perrot. You can find their data collection [repo here](https://github.com/marvelje/bird-data-exploration).
+The data for this repo was sourced from the [Ecological Society of America](https://figshare.com/collections/EltonTraits_1_0_Species-level_foraging_attributes_of_the_world_s_birds_and_mammals/3306933) and [BirdLife International](https://www.birdlife.org/) by colleagues Jeff Marvel and Crystal Gould Perrot. You can find their data collection [repo here](https://github.com/marvelje/bird-data-exploration), where you can download the [csv](https://github.com/marvelje/bird-data-exploration/blob/main/bird_dataset.csv) to a `data/` folder in your local repo.
 
 Much of the data is already encoded as binary indicators. To prepare the data for modeling, we normalized the continuous columns via min-max scaling, one-hot encoded the categorical columns, and scaled proportional data to be percentages.
 
@@ -41,7 +41,6 @@ The data was split into train (75%), test (15%), and holdout (10%) sets prior to
 The stacked classifier achieved 97% recall and 50% precision on the holdout set. The business goal was to minimize false negatives, or to avoid classifying a threatened bird species as not threatened, so the high recall score is encouraging. The confusion matrix, ROC curve, and precision-recall curve for the holdout set can be found below.
 
 ![holdout data model evaluation viz](https://github.com/andrewwhitman/BirdConservation/blob/main/images/holdout_eval.png)
-
 
 ## Conclusions
 

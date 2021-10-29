@@ -1,5 +1,5 @@
 # imports
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, precision_recall_curve ,auc, plot_confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, precision_recall_curve, auc, plot_confusion_matrix
 import matplotlib.pyplot as plt
 from pandas import DataFrame
 
@@ -24,7 +24,11 @@ def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False, save_fig_path=Fal
             The target values for test set.
         grid_search: boolean, default=False
             False: The model is not a grid search object.
-            True: The model is a grid search object. The best parameters and the CV results will be displayed.
+            True: The model is a grid search object. The best parameters and the CV results will be displayed, and the fitted model will be returned.
+        save_fig_path: boolean or str, default=False
+            The path to save the visualizations
+            False: don't save the visualizations
+            str: save the visualizations to the path (also renames them to "Holdout Data")
         
     Outputs:
         model: sklearn-like model object
