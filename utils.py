@@ -4,10 +4,12 @@ import matplotlib.pyplot as plt
 from pandas import DataFrame
 
 # functions
-def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False):
+def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False, save_fig_path=False):
     """
     Fit a model to train data and calculate classification metrics for train and test data.
     Plot the confusion matrix, ROC curve, and precision-recall curve for test data.
+
+    ROC curve plotting code inspired by "Topic 25: Introduction to Logistic Regression 'ROC Curves and AUC'" from Flatiron School
     
     Inputs:
         model: sklearn-like model object
@@ -25,7 +27,8 @@ def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False):
             True: The model is a grid search object. The best parameters and the CV results will be displayed.
         
     Outputs:
-        None    
+        model: sklearn-like model object
+            The model chosen by the grid search based on the best CV score.
     """
     
     # fit the model
@@ -97,10 +100,17 @@ def evaluate(model, X_tr, y_tr, X_te, y_te, grid_search=False):
     ax3.set_ylim([0.0, 1.05])
     ax3.text(x=0.05, y=0.15, s=pr_auc_text, fontsize=14)
     ax3.legend(loc='lower left', fontsize=14)
+
+    # save figs
+    if save_fig_path:
+        ax1.set_title('Confusion Matrix for Holdout Data')
+        ax2.set_title('Receiver operating characteristic (ROC) Curve for Holdout Data')
+        ax3.set_title('Precision-Recall Curve for Holdout Data')
+        fig.savefig(save_fig_path)
     
     # display grid search results
     if grid_search:
         print(f"\nBest Parameters\n{model.best_params_}")
         results = DataFrame(model.cv_results_)
         display(results.sort_values('rank_test_f1'))
-        return results
+        return model
