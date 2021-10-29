@@ -29,6 +29,7 @@ Add text
 ## Evaluation
 
 Add text
+![fig](https://github.com/andrewwhitman/BirdConservation/blob/main/images/test.png)
 
 
 ## Conclusions
