@@ -44,12 +44,14 @@ The stacked classifier achieved 97% recall and 50% precision on the holdout set.
 
 ## Conclusions
 
-We would recommend that our model be used to identify a shortlist of threatened species as a proxy for the rigorous Red List evaluation if a species' evaluation is becoming out of date. Our model conservatively identifies most threatened species, while incorrectly identifying species as threatened when they are not. We would also recommend using our model to predict the threatened status of data deficient birds on the Red List to guide conservation planning and data collection and evaluation efforts.
+We would recommend that our model be used to identify threatened species as a proxy for the rigorous Red List evaluation if a species' evaluation is becoming out of date. If the species is predicted to be threatened, further investigation could be prioritized to confirm or deny this finding. If the species is not predicted to be threatened, it is unlikely to be a false negative.
+
+We would also recommend using our model to predict the threatened status of data deficient birds on the Red List to guide conservation planning and data collection and evaluation efforts.
 
 
 ## Information
 
-Check out our [notebook](https://github.com/andrewwhitman/BirdConservation/blob/main/BirdConservation.ipynb) for a more thorough discussion of our project, as well as our presentation (link to come).
+Check out our [notebook](https://github.com/andrewwhitman/BirdConservation/blob/main/BirdConservation.ipynb) for a more thorough discussion of our project, as well as our [presentation](https://github.com/andrewwhitman/BirdConservation/blob/main/presentation.pdf).
 
 ## Repository Structure
 
@@ -61,8 +63,8 @@ Check out our [notebook](https://github.com/andrewwhitman/BirdConservation/blob/
 │   └── ...
 ├── .gitignore                          <- file specifying files/directories to ignore
 ├── BirdConservation.ipynb              <- notebook detailing the data science process containing code and narrative
-├── presentation.pdf                    <- presentation slides for a business audience
 ├── README.md                           <- Top-level README
+├── presentation.pdf                    <- presentation slides for a business audience
 └── utils.py                            <- Contains helper function for model evaluation
 
 ``` 
